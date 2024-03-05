@@ -14,3 +14,5 @@
 .vscode
 .DS_Store
 *.jar
+exposing-to-internet/Certificates/*
+exposing-to-internet/service-account-keys/*
