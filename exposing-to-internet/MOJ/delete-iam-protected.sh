@@ -1,5 +1,5 @@
 #!/bin/bash
-KEY_FILE="/etc/apigee/gitRepos/apigee-samples/exposing-to-internet/service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json"
+KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json"
 ENV_NAME="iam-protected"
 
 
