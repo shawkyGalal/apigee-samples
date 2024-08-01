@@ -20,10 +20,11 @@ HELP=" createEnv.sh --KEY_FILE <GC_SERVICE_ACCOUNT_KEY_FILE> --VPN <GC_VPN> --VP
 
 Parameters : 
 
-AUTH_METHOD     Optional    Default Value = "USER_SESSION" , if = SERVICE_KEY , you should provide a KEY_FILE as a Google Credential
-KEY_File 		Conditional In Case AUTH_METHOD=SERVICE_KEY , This Parameter is Mandatory: Google Cloud Service Account Key Used To Create the New Environment
 ENV_NAME		Mandatory 	GC Apigee New Environment name 
 ENV_GROUP_DNS	Mandatory 	GC Apigee Environment Group Runtime Host Alias that will be associated to the new Environment - Currently This hostname should be *.moj.gov.sa - as Per the Certificate used in this code 
+AUTH_METHOD     Optional    Default Value = "USER_SESSION" , if = SERVICE_KEY , you should provide a KEY_FILE as a Google Credential
+KEY_File 		Conditional Google Service Account Key file Used To Create the New Environment, In Case AUTH_METHOD=SERVICE_KEY , This Parameter is Mandatory: 
+PROJECT 		Conditional Google Cloud Project Name, This Parameter is Mandatory if  AUTH_METHOD != SERVICE_KEY 
 VPN 			Optional 	Google Cloud Virtual Private Network Name		default value = "default"
 VPN_SUBNET		Optional	Google Cloud Virtual Private SUB Network Name	default value = "default"
 INSTANCE_INDEX	Optional	Apigee Instance Index That Will serve the new Environment  default value = 0 	
@@ -99,7 +100,13 @@ do
 			echo "====AUTH_METHOD : $AUTH_METHOD ======="
 			shift # past argument
 			shift # past value
-		            
+			;;
+		--PROJECT)
+			PROJECT="$2"
+			echo "====PROJECT : $PROJECT ======="
+			shift # past argument
+			shift # past value
+		    ;;      
 	esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
@@ -107,7 +114,10 @@ echo "Inventory File Path  = ${INVENTORY} , Operation = ${OPERATION} ServersGrou
 
 RUNTIME_HOST_ALIAS=$ENV_GROUP_DNS  #"apis.moj.gov.sa" 
 NETWORK=$VPN  #"default"
+
+if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
 PROJECT=$(cat "$KEY_FILE" | jq --raw-output '.project_id')
+fi 
 
 if [ -z "$PROJECT" ]; then
   echo "No PROJECT variable set"

@@ -40,13 +40,22 @@ do
 			AUTH_METHOD="$2"
 			echo "====AUTH_METHOD : $AUTH_METHOD ======="
 			shift # past argument
-			shift # past value         
+			shift # past value   
+      ;;
+      --PROJECT)
+			PROJECT="$2"
+			echo "====PROJECT : $PROJECT ======="
+			shift # past argument
+			shift # past value      
 		            
 	esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
 PROJECT=$(cat "$KEY_FILE" | jq --raw-output '.project_id')
+fi 
+
 echo "================================================================================================="
 echo "=== Start Deleting Environment $ENV_NAME  on Google Cloud Project $PROJECT ===========" 
 echo "================================================================================================="
