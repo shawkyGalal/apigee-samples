@@ -52,7 +52,7 @@ do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
+if [[ ${AUTH_METHOD} == "SERVICE_KEY" ]]; then 
 PROJECT=$(cat "$KEY_FILE" | jq --raw-output '.project_id')
 fi 
 
