@@ -35,7 +35,12 @@ do
 			echo "====ENV_NAME : $ENV_NAME ======="
 			shift # past argument
 			shift # past value
-			;;              
+			;;     
+      --AUTH_METHOD)
+			AUTH_METHOD="$2"
+			echo "====AUTH_METHOD : $AUTH_METHOD ======="
+			shift # past argument
+			shift # past value         
 		            
 	esac
 done
@@ -72,7 +77,12 @@ if [ ! -z "$1" ]; then
  fi
 }
 
-gcloud auth login --cred-file $KEY_FILE
+if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
+	gcloud auth login --cred-file $KEY_FILE 
+else
+	gcloud auth login 
+fi
+
 gcloud config set project $PROJECT
 
 echo "Installing apigeecli"

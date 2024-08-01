@@ -20,7 +20,8 @@ HELP=" createEnv.sh --KEY_FILE <GC_SERVICE_ACCOUNT_KEY_FILE> --VPN <GC_VPN> --VP
 
 Parameters : 
 
-KEY_File 		Mandatory 	Google Cloud Service Account Key Used To Create the New Environment
+AUTH_METHOD     Optional    Default Value = "USER_SESSION" , if = SERVICE_KEY , you should provide a KEY_FILE as a Google Credential
+KEY_File 		Conditional In Case AUTH_METHOD=SERVICE_KEY , This Parameter is Mandatory: Google Cloud Service Account Key Used To Create the New Environment
 ENV_NAME		Mandatory 	GC Apigee New Environment name 
 ENV_GROUP_DNS	Mandatory 	GC Apigee Environment Group Runtime Host Alias that will be associated to the new Environment - Currently This hostname should be *.moj.gov.sa - as Per the Certificate used in this code 
 VPN 			Optional 	Google Cloud Virtual Private Network Name		default value = "default"
@@ -92,7 +93,12 @@ do
 			echo "====INSTANCE_INDEX : $INSTANCE_INDEX ======="
 			shift # past argument
 			shift # past value
-
+			;;
+		--AUTH_METHOD)
+			AUTH_METHOD="$2"
+			echo "====AUTH_METHOD : $AUTH_METHOD ======="
+			shift # past argument
+			shift # past value
 		            
 	esac
 done
@@ -129,9 +135,12 @@ function wait_for_operation() {
 }
 
 
+if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
+	gcloud auth login --cred-file $KEY_FILE 
+else
+	gcloud auth login 
+fi
 
-
-gcloud auth login --cred-file $KEY_FILE
 gcloud config set project $PROJECT
 
 echo "Installing apigeecli"

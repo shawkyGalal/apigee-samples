@@ -37,7 +37,45 @@ Customers can connect an external load balancer to this attachment using a [PSC 
 Use the following GCP CloudShell tutorial, and follow the instructions.
 
 [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/shawkyGalal/apigee-samples&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=exposing-to-internet/docs/cloudshell-tutorial.md)
+### Create a new Apigee Environment and expose to the internet
 
+You need to provide your certificate files (cer and key ) instead of the default certificate managed by google cloud.
+and update the create-iam-protected.sh with your certificate 
+
+For example 
+To Create iam-protected Environment
+
+ ```bash
+ENV_NAME=iam-protected
+ENV_GROUP_DNS=apis.moj.gov.sa
+# Certificate files should match with the provided ENV_GROUP_DNS 
+TLS_CERT_PATH= "<PATH-TO_CERT_FILE>" # "./Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.cer"
+TLS_KEY_PATH="<PATH_TO_KEY_FILE>"  # "./Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.key"
+
+
+ cd exposing-to-internet/MOJ
+ "./create-env.sh" \
+--ENV_NAME $ENV_NAME \
+--AUTH_METHOD CLOUD_SHELL  \  
+# In Case you need to run outside google cloud shell uncomment the following line  
+# --AUTH_METHOD SERVICE_KEY  KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json" \
+--ENV_GROUP_DNS $ENV_GROUP_DNS \
+--TLS_CERT_PATH $TLS_CERT_PATH  \
+--TLS_KEY_PATH $TLS_KEY_PATH
+ ```
+
+To delete iam-protected Environment
+
+ ```bash
+cd exposing-to-internet/MOJ
+"./clean-up.sh" \
+--ENV_NAME $ENV_NAME \
+--AUTH_METHOD CLOUD_SHELL \ 
+# In Case you need to run outside google cloud shell uncomment the following line  
+# --AUTH_METHOD SERVICE_KEY  KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json" \
+
+ ```
+ 
 ## Setup instructions
 
 1. Clone the `apigee-samples` repo, and switch the `exposing-to-internet` directory
