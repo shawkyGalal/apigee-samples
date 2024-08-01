@@ -54,20 +54,24 @@ TLS_KEY_PATH="<PATH_TO_KEY_FILE>"  # "./Certificates/2024/te_cb83fa55_4c30_45ee_
 
 
  cd exposing-to-internet/MOJ
+ chmod 777 create-env.sh
+ 
  "./create-env.sh" \
 --ENV_NAME $ENV_NAME \
+--ENV_GROUP_DNS $ENV_GROUP_DNS \
+--TLS_CERT_PATH $TLS_CERT_PATH  \
+--TLS_KEY_PATH $TLS_KEY_PATH \
 --AUTH_METHOD CLOUD_SHELL  \  
 # In Case you need to run outside google cloud shell uncomment the following line  
 # --AUTH_METHOD SERVICE_KEY  KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json" \
---ENV_GROUP_DNS $ENV_GROUP_DNS \
---TLS_CERT_PATH $TLS_CERT_PATH  \
---TLS_KEY_PATH $TLS_KEY_PATH
+
  ```
 
 To delete iam-protected Environment
 
  ```bash
 cd exposing-to-internet/MOJ
+chmod 777 clean-up.sh
 "./clean-up.sh" \
 --ENV_NAME $ENV_NAME \
 --AUTH_METHOD CLOUD_SHELL \ 
