@@ -110,12 +110,11 @@ do
 	esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
-echo "Inventory File Path  = ${INVENTORY} , Operation = ${OPERATION} ServersGroup= $SERVERS_GROUP"
 
 RUNTIME_HOST_ALIAS=$ENV_GROUP_DNS  #"apis.moj.gov.sa" 
 NETWORK=$VPN  #"default"
 
-if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
+if [[ ${AUTH_METHOD} == "SERVICE_KEY" ]]; then 
 PROJECT=$(cat "$KEY_FILE" | jq --raw-output '.project_id')
 fi 
 
@@ -144,11 +143,10 @@ function wait_for_operation() {
 	fi
 }
 
-
-if [ "$AUTH_METHOD" ="SERVICE_KEY"]; then  
+if [[ ${AUTH_METHOD} == "SERVICE_KEY" ]]; then 
 	gcloud auth login --cred-file $KEY_FILE 
 else
-	gcloud auth login 
+  gcloud auth login 
 fi
 
 gcloud config set project $PROJECT
