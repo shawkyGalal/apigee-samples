@@ -37,63 +37,68 @@ Customers can connect an external load balancer to this attachment using a [PSC 
 Use the following GCP CloudShell tutorial, and follow the instructions.
 
 [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/shawkyGalal/apigee-samples&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=exposing-to-internet/docs/cloudshell-tutorial.md)
+### Create a new Apigee Environment and expose to the internet
+
+You need to provide your certificate files (cer and key ) instead of the default certificate managed by google cloud.
+and update the create-iam-protected.sh with your certificate 
+
+For example 
+To Create iam-protected Environment
+
+ ```bash
+PROJECT=moj-prod-apigee
+ENV_NAME=iam-protected
+ENV_GROUP_DNS=apis.moj.gov.sa
+# Certificate files should match with the provided ENV_GROUP_DNS 
+TLS_CERT_PATH= "<PATH-TO_CERT_FILE>" # "./Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.cer"
+TLS_KEY_PATH="<PATH_TO_KEY_FILE>"  # "./Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.key"
+
+
+ cd exposing-to-internet/MOJ
+ sudo chmod 777 create-env.sh
+ sudo chmod 777 create-iam-protected.sh
+  
+ "./create-env.sh" \
+--PROJECT $PROJECT \
+--ENV_NAME $ENV_NAME \
+--ENV_GROUP_DNS $ENV_GROUP_DNS \
+--TLS_CERT_PATH $TLS_CERT_PATH  \
+--TLS_KEY_PATH $TLS_KEY_PATH \
+--AUTH_METHOD CLOUD_SHELL  \  
+# In Case you need to run outside google cloud shell uncomment the following line  
+# --AUTH_METHOD SERVICE_KEY  KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json" \
+# also no need for PROJECT argument as it will be read from the provided key file 
+
+ ```
+ or Simply : 
  
-## Setup instructions
+ ```
+ 	sudo chmod 777 ./MOJ/create-iam-protected.sh
+  	sudo ./MOJ/create-iam-protected.sh
+  
+  ```
+  
+To delete iam-protected Environment
 
-1. Clone the `apigee-samples` repo, and switch the `exposing-to-internet` directory
+ ```bash
+cd exposing-to-internet/MOJ
+chmod 777 clean-up.sh
+"./clean-up.sh" \
+--PROJECT $PROJECT \
+--ENV_NAME $ENV_NAME \
+--AUTH_METHOD CLOUD_SHELL \ 
+# In Case you need to run outside google cloud shell uncomment the following line  
+# --AUTH_METHOD SERVICE_KEY  KEY_FILE="./service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json" \
 
-```bash
-git clone https://github.com/GoogleCloudPlatform/apigee-samples.git
-cd exposing-to-internet
-```
-
-2. Edit `env.sh` and configure the following variables:
-
-* `PROJECT` the project where your Apigee organization is located
-* `NETWORK` the VPC network where the PSC NEG will be deployed
-* `SUBNET` the VPC subnet where the PSC NEG will be deployed
-
-Now source the `env.sh` file
-
-```bash
-source ./env.sh
-```
-
-3. Deploy the environment, environment group and load balancing components:
-
-```bash
-./deploy.sh
-```
-
-Please note the script may take some time to complete while certificate provisioning occurs.
-
-## Testing
-
-To run the tests, first retrieve Node.js dependencies with:
-
-```bash
-npm install
-```
-
-Ensure the following environment variables have been set correctly:
-
-* `RUNTIME_HOST_ALIAS`
-
-and then run the tests:
-
-```bash
-npm run test
-```
-
-## Example Requests
-
-To manually test the instance via the external load balancer URL, wait a minute and then make the following request:
-
-```bash
-curl https://$RUNTIME_HOST_ALIAS/healthz/ingress -H 'User-Agent: GoogleHC'
-```
-
-You should see an HTTP 200 status returned along with the response body "`Apigee Ingress is healthy`" which indicates the instance is accessible via the external URL. If you see an SSL error, wait a second and try again.
+ ```
+ or Simply : 
+ 
+ ```
+  cd exposing-to-internet
+  sudo chmod 777 ./MOJ/delete-iam-protected.sh
+  sudo ./MOJ/delete-iam-protected.sh
+  
+ ```
 
 ## Cleanup
 

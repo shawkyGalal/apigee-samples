@@ -97,7 +97,7 @@ do
 			;;
 		--AUTH_METHOD)
 			AUTH_METHOD="$2"
-			echo "====AUTH_METHOD : $AUTH_METHOD ======="
+			echo "====AUTH_METHOD : $AUTH_METHOD Allowed Valued SERVICE_KEY , USER_SESSION ======="
 			shift # past argument
 			shift # past value
 			;;
