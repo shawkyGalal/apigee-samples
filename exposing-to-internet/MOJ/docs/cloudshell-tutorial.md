@@ -9,10 +9,10 @@ For example
 
 
  ```
- 	cd ./exposing-to-internet
- 	sudo chmod 777 ./MOJ/create-iam-protected.sh
- 	sudo chmod 777 ./MOJ/create-env.sh
-  	./MOJ/create-iam-protected.sh
+ 	cd ./exposing-to-internet/MOJ
+ 	sudo chmod 777 ./create-iam-protected.sh
+ 	sudo chmod 777 ./create-env.sh
+  	./create-iam-protected.sh
   
   ```
   
@@ -20,9 +20,9 @@ For example
 ## Delete iam-protected Environment
 
  ```
-  cd ./exposing-to-internet
-  sudo chmod 777 ./MOJ/delete-iam-protected.sh
-  sudo chmod 777 ./MOJ/clean-up.sh
-  ./MOJ/delete-iam-protected.sh
+  cd ./exposing-to-internet/MOJ
+  sudo chmod 777 ./delete-iam-protected.sh
+  sudo chmod 777 ./clean-up.sh
+  ./delete-iam-protected.sh
   
  ```
