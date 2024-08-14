@@ -16,3 +16,11 @@
 *.jar
 exposing-to-internet/Certificates/*
 exposing-to-internet/service-account-keys/*
+exposing-to-internet/MOJ/Certificates/2024/MojSA24.pfx
+exposing-to-internet/MOJ/Certificates/2024/MojSA24.rar
+exposing-to-internet/MOJ/Certificates/2024/New Text Document.txt
+exposing-to-internet/MOJ/Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.cer
+exposing-to-internet/MOJ/Certificates/2024/te_cb83fa55_4c30_45ee_93e4_b51dd9e5f992.key
+exposing-to-internet/MOJ/service-account-keys/jenkins@apigee-moj-stage.iam.gserviceaccount.com.json
+exposing-to-internet/MOJ/service-account-keys/jenkins@moj-prod-apigee.iam.gserviceaccount.com.json
+exposing-to-internet/MOJ/service-account-keys/postman@apigee-moj-stage.iam.gserviceaccount.com.json
